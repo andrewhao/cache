@@ -135,8 +135,9 @@ class Cache
   #     cache.fetch 'hello' { 'world' }
   def fetch(k, ttl = nil, &blk)
     handle_fork
-    if _exist? k
-      _get k
+    v = _get(k)
+    if !v.nil?
+      v
     elsif blk
       v = blk.call
       _set k, v, extract_ttl(ttl)
